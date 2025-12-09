@@ -15,12 +15,12 @@ edition = "2024"
 [dependencies]
 
 [build-dependencies]
-log = "0.4.29"
-pkg-config = "0.3.32"
-cmake = "0.1.54"
+log = "0.4"
+pkg-config = "0.3"
+cmake = "0.1"
 
 [build-dependencies.bindgen]
-version = "0.72.1"
+version = "0.72"
 optional = true
 
 [features]
