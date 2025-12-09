@@ -10,7 +10,7 @@ categories = ["api-bindings", "compression", "encoding",
 description = "FFI-Binding to Opus, dynamically or statically linked for Windows and UNIX."
 readme = "README.md"
 documentation = "https://docs.rs/audiopus_sys"
-edition = "2018"
+edition = "2021"
 
 [dependencies]
 
