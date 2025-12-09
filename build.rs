@@ -21,9 +21,25 @@ fn generate_binding() {
                                                  #![allow(non_camel_case_types)]\n\
                                                  #![allow(non_snake_case)]\n";
 
+    #[derive(Debug)]
+    struct OpusCallbacks;
+
+    impl bindgen::callbacks::ParseCallbacks for OpusCallbacks {
+        fn int_macro(&self, name: &str, _value: i64) -> Option<bindgen::callbacks::IntKind> {
+            // Force all OPUS_* constants to be i32 to match the function signatures
+            // which take `int request` parameters (mapped to i32 in Rust)
+            if name.starts_with("OPUS_") {
+                Some(bindgen::callbacks::IntKind::I32)
+            } else {
+                None
+            }
+        }
+    }
+
     let bindings = bindgen::Builder::default()
         .header("src/wrapper.h")
         .raw_line(ALLOW_UNCONVENTIONALS)
+        .parse_callbacks(Box::new(OpusCallbacks))
         .generate()
         .expect("Unable to generate binding");
 
