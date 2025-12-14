@@ -89,6 +89,10 @@ fn build_opus(is_static: bool) {
     config.define("OPUS_ASSERTIONS", "OFF");
     config.define("OPUS_HARDENING", "OFF");
 
+    // Also define NO_ASSERTS to disable SILK assertions that use _ASSERTE on Windows
+    // which requires the debug CRT (__imp__CrtDbgReportW)
+    config.cflag("-DNO_ASSERTS");
+
     let opus_build_dir = config.build();
     link_opus(is_static, opus_build_dir.display())
 }
