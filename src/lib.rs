@@ -4,6 +4,10 @@
 #![allow(non_camel_case_types)]
 #![allow(non_snake_case)]
 
+pub type opus_int16 = i16;
+pub type opus_uint16 = u16;
+pub type opus_int32 = i32;
+pub type opus_uint32 = u32;
 
 pub const OPUS_OK: i32 = 0;
 pub const OPUS_BAD_ARG: i32 = -1;
@@ -81,10 +85,6 @@ pub const OPUS_FRAMESIZE_120_MS: i32 = 5009;
 pub const OPUS_RESET_STATE: i32 = 4028;
 pub const OPUS_MULTISTREAM_GET_ENCODER_STATE_REQUEST: i32 = 5120;
 pub const OPUS_MULTISTREAM_GET_DECODER_STATE_REQUEST: i32 = 5122;
-pub type opus_int16 = i16;
-pub type opus_uint16 = u16;
-pub type opus_int32 = i32;
-pub type opus_uint32 = u32;
 unsafe extern "C" {
     #[doc = " Converts an opus error code into a human readable string.\n\n @param[in] error <tt>int</tt>: Error number\n @returns Error string"]
     pub fn opus_strerror(error: ::std::os::raw::c_int) -> *const ::std::os::raw::c_char;

@@ -70,6 +70,15 @@ fn generate_binding() {
         .blocklist_item("opus_uint8")
         .blocklist_item("opus_int64")
         .blocklist_item("opus_uint64")
+        // Blocklist core opus integer types to manually define them consistently
+        .blocklist_item("opus_int16")
+        .blocklist_item("opus_uint16")
+        .blocklist_item("opus_int32")
+        .blocklist_item("opus_uint32")
+        .raw_line("pub type opus_int16 = i16;")
+        .raw_line("pub type opus_uint16 = u16;")
+        .raw_line("pub type opus_int32 = i32;")
+        .raw_line("pub type opus_uint32 = u32;")
         .generate()
         .expect("Unable to generate binding");
 
