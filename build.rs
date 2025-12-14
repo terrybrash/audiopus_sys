@@ -7,11 +7,7 @@ use std::{env, fmt::Display, path::Path};
 /// Outputs the library-file's prefix as word usable for actual arguments on
 /// commands or paths.
 const fn rustc_linking_word(is_static_link: bool) -> &'static str {
-    if is_static_link {
-        "static"
-    } else {
-        "dylib"
-    }
+    if is_static_link { "static" } else { "dylib" }
 }
 
 /// Generates a new binding at `src/lib.rs` using `src/wrapper.h`.
@@ -40,6 +36,29 @@ fn generate_binding() {
         .header("src/wrapper.h")
         .raw_line(ALLOW_UNCONVENTIONALS)
         .parse_callbacks(Box::new(OpusCallbacks))
+        // Blocklist platform-specific types that aren't part of Opus API
+        .blocklist_type("_opaque_pthread_.*")
+        .blocklist_type("__darwin_.*")
+        // Blocklist platform-specific constants
+        .blocklist_item("__WORDSIZE")
+        .blocklist_item("__has_.*")
+        .blocklist_item("__DARWIN_.*")
+        .blocklist_item("_DARWIN_.*")
+        .blocklist_item("__STDC_.*")
+        .blocklist_item("USE_CLANG_TYPES")
+        .blocklist_item("__PTHREAD_.*")
+        .blocklist_item("INT.*_MAX")
+        .blocklist_item("INT.*_MIN")
+        .blocklist_item("UINT.*_MAX")
+        .blocklist_item("SIZE_MAX")
+        .blocklist_item("RSIZE_MAX")
+        .blocklist_item("WINT_.*")
+        .blocklist_item("SIG_ATOMIC_.*")
+        // Blocklist platform-specific type aliases
+        .blocklist_type("int_least.*_t")
+        .blocklist_type("uint_least.*_t")
+        .blocklist_type("int_fast.*_t")
+        .blocklist_type("uint_fast.*_t")
         .generate()
         .expect("Unable to generate binding");
 
