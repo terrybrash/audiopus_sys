@@ -39,6 +39,9 @@ fn generate_binding() {
         // Blocklist platform-specific types that aren't part of Opus API
         .blocklist_type("_opaque_pthread_.*")
         .blocklist_type("__darwin_.*")
+        .blocklist_type("__mbstate_t")
+        .blocklist_type("__int.*_t")
+        .blocklist_type("__uint.*_t")
         // Blocklist platform-specific constants
         .blocklist_item("__WORDSIZE")
         .blocklist_item("__has_.*")
@@ -54,11 +57,19 @@ fn generate_binding() {
         .blocklist_item("RSIZE_MAX")
         .blocklist_item("WINT_.*")
         .blocklist_item("SIG_ATOMIC_.*")
+        .blocklist_item("intmax_t")
+        .blocklist_item("uintmax_t")
+        .blocklist_item("__builtin_va_list")
         // Blocklist platform-specific type aliases
         .blocklist_type("int_least.*_t")
         .blocklist_type("uint_least.*_t")
         .blocklist_type("int_fast.*_t")
         .blocklist_type("uint_fast.*_t")
+        // Blocklist extended opus types that aren't in the core API
+        .blocklist_item("opus_int8")
+        .blocklist_item("opus_uint8")
+        .blocklist_item("opus_int64")
+        .blocklist_item("opus_uint64")
         .generate()
         .expect("Unable to generate binding");
 
