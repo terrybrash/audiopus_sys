@@ -82,7 +82,14 @@ fn build_opus(is_static: bool) {
     );
 
     println!("cargo:info=Building Opus via CMake.");
-    let opus_build_dir = cmake::build(opus_path);
+    let mut config = cmake::Config::new(opus_path);
+
+    // Disable assertions and hardening to avoid debug CRT dependency on Windows
+    // Rust defaults to release CRT even in debug builds, but CMake defaults to debug CRT
+    config.define("OPUS_ASSERTIONS", "OFF");
+    config.define("OPUS_HARDENING", "OFF");
+
+    let opus_build_dir = config.build();
     link_opus(is_static, opus_build_dir.display())
 }
 
